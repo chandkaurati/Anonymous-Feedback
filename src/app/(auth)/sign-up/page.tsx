@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { signupSchemaVanliDation } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponce } from "@/types/Apiresponce";
+import {PropagateLoader, PulseLoader, SyncLoader} from "react-spinners"
 import {
   Form,
   FormControl,
@@ -78,8 +79,11 @@ function page() {
           setUsernameMessage(responce.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponce>;
-          console.log(axiosError);
-          setUsernameMessage(axiosError.message ?? "error checking username ");
+          if(axiosError.response){
+            setUsernameMessage(axiosError.response.data.message)
+          }else{
+            setUsernameMessage(axiosError.message)
+          }
         } finally {
           setIsChekingUsername(false);
         }
@@ -93,7 +97,7 @@ function page() {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <h1 className="text-3xl font-bold tracking-tight lg:text-4xl mb-6">
             Join Mistry Message
           </h1>
           <p className="mb-4">Sign up to start your anonymous Adventure</p>
@@ -116,8 +120,8 @@ function page() {
                       }}
                     />
                   </FormControl>
-                  {isChekingUsername && <Loader2 className="animate-spin" />}
-                  <p className={`text-sm ${usernameMessage ===  "Username is Available" ? 'text-green-600'  : 'text-red-600'} `}>test {usernameMessage}</p>
+                  {isChekingUsername && <SyncLoader size={8}/> }
+                  <p className={`text-sm ${usernameMessage ===  "Username is Available" ? 'text-green-600'  : 'text-red-600'} `}>{usernameMessage}</p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -155,7 +159,7 @@ function page() {
 
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                <PulseLoader size={8} />
               ) : (
                 "Signup"
               )}

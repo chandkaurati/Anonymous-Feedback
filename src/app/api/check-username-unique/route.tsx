@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/models/User.model";
 import { z } from "zod";
+import UserModel from "@/models/User.model"; 
 import { usernameValidation } from "@/schemas/signUpSchema";
 import { NextRequest } from "next/server";
 
@@ -9,7 +9,6 @@ const userNameQuerySchema = z.object({
 });
 
 export async function GET(request: NextRequest) {
-  
   await dbConnect();
   try {
     const { searchParams } = new URL(request.url);
@@ -22,6 +21,7 @@ export async function GET(request: NextRequest) {
     console.log(result);
     if (!result.success) {
       const usernameErrors = result.error.format().username?._errors || [];
+      console.log(usernameErrors)
       return Response.json(
         {
           success: false,
@@ -58,7 +58,6 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.log("error while checking username", error);
-
     return Response.json(
       { success: false, message: "Error checking username" },
       { status: 400 }
