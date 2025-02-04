@@ -3,17 +3,16 @@ import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useDebounceValue, useDebounceCallback } from "usehooks-ts";
+import {useDebounceCallback } from "usehooks-ts";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { signupSchemaVanliDation } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponce } from "@/types/Apiresponce";
-import {PropagateLoader, PulseLoader, SyncLoader} from "react-spinners"
+import {PulseLoader, SyncLoader} from "react-spinners"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,8 +20,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, LoaderCircle } from "lucide-react";
 import Link from "next/link";
+ 
 function page() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
